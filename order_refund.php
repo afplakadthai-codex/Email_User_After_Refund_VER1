@@ -2065,6 +2065,17 @@ if (!function_exists('bv_refund_notification_build_payloads')) {
         if ($buyerEmail !== '' && filter_var($buyerEmail, FILTER_VALIDATE_EMAIL)) {
             $buyerDetailUrl = bv_order_refund_enforce_role_safe_url($detailUrl, 'buyer', $refundId, $orderId, false);
             $buyerDashboardUrl = bv_order_refund_enforce_role_safe_url($dashboardUrl, 'buyer', $refundId, $orderId, true);
+           if ($event === 'completed') {
+                $buyerCompletedUrl = bv_order_refund_enforce_role_safe_url(
+                    bv_order_refund_build_link('/member/index.php', 0, false),
+                    'buyer',
+                    $refundId,
+                    $orderId,
+                    true
+                );
+                $buyerDetailUrl = $buyerCompletedUrl;
+                $buyerDashboardUrl = $buyerCompletedUrl;
+            }			
           $buyerText = "Hello " . (string)($ctx['buyer_name'] ?? 'Customer') . ",
 
 " . implode("
